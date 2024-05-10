@@ -19,7 +19,7 @@ ARG VER="2.6"
 
 ARG BASE_REG="docker.io"
 ARG BASE_REPO="library/haproxy"
-ARG BASE_VER="${VER}"
+ARG BASE_VER="${VER}.17"
 ARG BASE_IMG="${BASE_REG}/${BASE_REPO}:${BASE_VER}"
 
 FROM "${BASE_IMG}"

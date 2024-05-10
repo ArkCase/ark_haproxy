@@ -15,7 +15,7 @@
 #
 # Basic Parameters
 #
-ARG VER="2.6.0"
+ARG VER="2.6"
 
 ARG BASE_REG="docker.io"
 ARG BASE_REPO="library/haproxy"

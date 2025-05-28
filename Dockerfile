@@ -37,3 +37,9 @@ ARG HAP_BASE_IMG
 FROM "${HAP_BASE_IMG}"
 
 COPY --from=arkcase-base /.functions /
+
+RUN apt-get update && \
+    apt-get install -y \
+        bind9-dnsutils \
+      && \
+    apt-get clean all

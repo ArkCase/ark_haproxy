@@ -43,6 +43,7 @@ USER root
 RUN apt-get update && \
     apt-get install -y \
         bind9-dnsutils \
+        socat \
       && \
     apt-get clean all
 

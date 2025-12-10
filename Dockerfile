@@ -41,7 +41,7 @@ COPY --from=arkcase-base /.functions /
 USER root
 
 RUN apt-get update && \
-    apt-get install -y \
+    apt-get -y install \
         bind9-dnsutils \
         socat \
       && \

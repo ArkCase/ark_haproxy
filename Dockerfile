@@ -50,7 +50,10 @@ LABEL summary="${SUMMARY}" \
 
 RUN \
     apt-get -y install software-properties-common && \
-    add-apt-repository -y "${HAPROXY_APT_REPO}" && \
+    ( \
+        export OPENSSL_CONF=/dev/null && \
+        add-apt-repository -y "${HAPROXY_APT_REPO}" \
+    ) && \
     apt-get update && \
     apt-get -y install \
         haproxy \

@@ -22,7 +22,8 @@ FQSN="_${DNS_PORT}._tcp.${DNS_SERVICE}.${DNS_NAMESPACE}.svc."
 [ -n "${CLUSTER_DOMAIN}" ] && FQSN+="${CLUSTER_DOMAIN}."
 
 eyes "Fetching the server peer list from the DNS SRV record at [${FQSN}]"
-readarray -t SERVERS < <(dig +short -t SRV "${FQSN}" | sort -k 4)
+SRV_RECORDS="$(dig +short -t SRV "${FQSN}")" || fail "Failed to query the DNS SRV record at [${FQSN}] (rc=${?}): ${SRV_RECORDS}"
+readarray -t SERVERS < <(echo -n "${SRV_RECORDS}" | sort -k 4)
 
 :> "${PEERS_FILE}" || fail "Failed to initialize the peer listings file at [${PEERS_FILE}]"
 {

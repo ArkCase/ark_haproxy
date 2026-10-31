@@ -9,7 +9,7 @@ set_or_default API_SOCKET "${API_SOCKET_TYPE}:${API_SOCKET_ADDX}"
 
 render_command()
 {
-	[ ${#} -eq 0 ] && set -- cat
+	[ ${#} -eq 0 ] && exec cat
 	echo "${@}"
 }
 

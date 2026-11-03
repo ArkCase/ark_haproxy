@@ -48,7 +48,7 @@ LABEL summary="${SUMMARY}" \
       io.k8s.display-name="HAProxy ${VER}" \
       version="1"
 
-RUN \
+RUN --mount=type=bind,target=/src \
     apt-get -y install software-properties-common && \
     ( \
         export OPENSSL_CONF=/dev/null && \
@@ -64,15 +64,12 @@ RUN \
     usermod -a -G "${ACM_GROUP}" "${APP_USER}" && \
     rm -rf "${HOME}/.launchpadlib" "${HOME}/dev" && \
     chown -R "${APP_USER}:${APP_GROUP}" "${HOME}" "${CONF_DIR}" && \
-    chmod -R u=rwX,g=rX,o= "${HOME}" "${CONF_DIR}"
-
-COPY --chown=haproxy:haproxy --chmod=0644 responses.lua "${HOME}/responses.lua"
-COPY --chown=root:root --chmod=0755 scripts/ /
+    chmod -R u=rwX,g=rX,o= "${HOME}" "${CONF_DIR}" && \
+    install -o haproxy -g haproxy -m 0644 /src/responses.lua "${HOME}/responses.lua" && \
+    ( tar --owner=root --group=root --mode=u=rwX,go=rX -cf - /src/scripts ) | tar --strip-components=2 -C /usr/local/bin -xvf -
 
 WORKDIR "${HOME}"
 
 STOPSIGNAL SIGUSR1
 
 USER "${APP_USER}"
-
-ENTRYPOINT [ "haproxy" ]

@@ -66,7 +66,9 @@ RUN --mount=type=bind,target=/src \
     chown -R "${APP_USER}:${APP_GROUP}" "${HOME}" "${CONF_DIR}" && \
     chmod -R u=rwX,g=rX,o= "${HOME}" "${CONF_DIR}" && \
     install -o haproxy -g haproxy -m 0644 /src/responses.lua "${HOME}/responses.lua" && \
-    ( tar --owner=root --group=root --mode=u=rwX,go=rX -cf - /src/scripts ) | tar --strip-components=2 -C /usr/local/bin -xvf -
+    ( tar --owner=root --group=root --mode=u=rwX,go=rX -cf - /src/scripts ) | tar --strip-components=2 -C /usr/local/bin -xvf - && \
+    chown -R "${APP_USER}:${APP_GROUP}" "${TEMP_DIR}" && \
+    chmod -R u=rwX,g=rX,o= "${TEMP_DIR}"
 
 WORKDIR "${HOME}"
 
